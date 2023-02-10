@@ -10,7 +10,7 @@ export default (
   done: FastifyPluginDoneFunction
 ): void => {
   instance.get("/", async (req: FastifyRequest, res: FastifyReply) => {
-    res.status(httpStatus.OK).send("Hello world !!!");
+    res.status(httpStatus.OK).send("Hello world fady !!!");
   });
   done();
 };
