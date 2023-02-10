@@ -34,14 +34,21 @@ const GuessImages = () => {
     if (!ctx) return;
     const img = new Image();
     img.src = imagePath;
+
+    img.height = 450;
+    img.width = 900;
+
+    let posX = -Math.floor(Math.random() * 600);
+    let posY = -Math.floor(Math.random() * 300);
+
     img.onload = () => {
-      ctx.drawImage(img, 0, 0, img.width, img.height);
+      ctx.drawImage(img, posX, posY, img.width, img.height);
     };
   }, [imagePath]);
 
   useEffect(() => {
-    fetchHero();
     loadCanvasImage();
+    fetchHero();
   }, [loadCanvasImage, fetchHero]);
 
   const handleGuessChange = (e: React.ChangeEvent<HTMLInputElement>) => {
