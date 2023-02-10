@@ -3,3 +3,4 @@ coverage/
 .env
 docker.env
 prisma/migrations/
+dist/
