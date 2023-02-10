@@ -2,7 +2,13 @@
   {
     "id": 1,
     "name": "Tom",
-    "path": "tom.jpg",
+    "image": "tom.jpg",
     "emoji": "👍"
+  },
+  {
+    "id": 2,
+    "name": "Timothe",
+    "image": "timothe.jpg",
+    "emoji": "👎"
   }
 ]

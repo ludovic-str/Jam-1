@@ -22,7 +22,7 @@ export default (
 ): void => {
   instance.get("/:image", async (req: GetImageRequest, res: FastifyReply) => {
     try {
-      const buffer = fs.readFileSync("./assets/images/tom.jpg");
+      const buffer = fs.readFileSync("./assets/images/" + req.params.image);
 
       res.type("image/png");
       return res.send(buffer);
