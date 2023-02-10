@@ -1,0 +1,107 @@
+#! /usr/bin/env python3
+
+import json
+from csv import DictReader
+import requests
+from bs4 import BeautifulSoup
+
+with open("heroes_information.csv", 'r') as heroesInfo:
+    csvReader = DictReader(heroesInfo)
+    unsortedListHero = list(csvReader)
+
+def filter(unsortedListHero: list):
+    def isMarvelOrDc(element: str):
+        return (element == "Marvel Comics" or element == "DC Comics")
+
+    def isFirstEdition(element: str):
+        return (not any(edition in element for edition in ['II', 'III', 'IV', 'V', 'VI']))
+
+    listHero = []
+    for row in unsortedListHero:
+        if (isMarvelOrDc(row['Publisher']) and isFirstEdition(row['name'])):
+            listHero.append(row)
+
+    sortedHero = []
+    listMultipleIndex = []
+    for i in range(len(listHero)):
+        multiple = []
+        if listHero[i]['name'] == listHero[i - 1]['name']:
+            for j in range(i - 1, len(listHero)):
+                if listHero[i]['name'] == listHero[j]['name'] and listHero[i]['Publisher'] == listHero[j]['Publisher']:
+                    multiple.append(j)
+                else:
+                    break
+            i += len(multiple)
+        if len(multiple):
+            listMultipleIndex.append(multiple)
+
+    def countMiss(index: int, listHero):
+        count = 0
+        for key in listHero[index]:
+            if listHero[index][key] == '-':
+                count += 1
+        return (count)
+
+    uniqueRow = []
+    for multiple in listMultipleIndex:
+        missInfo = []
+        for index in multiple:
+            missInfo.append(countMiss(index, listHero))
+        uniqueRow.append(listHero[multiple[missInfo.index(min(missInfo))]])
+
+    seen = set()
+    new_l = []
+    for d in uniqueRow:
+        t = tuple(d.items())
+        if t not in seen:
+            seen.add(t)
+            new_l.append(d)
+
+    sortedHero = []
+    for row in listHero:
+        if not any(d['name'] == row['name'] for d in new_l):
+            sortedHero.append(row)
+    for row in new_l:
+        sortedHero.append(row)
+
+    tmp = set()
+    finalHero = []
+    id = 0
+    for elem in sortedHero:
+        if elem['name'] not in tmp:
+            elem['id'] = id
+            finalHero.append(elem)
+            id += 1
+            tmp.add(elem['name'])
+    return (finalHero)
+
+heroList = filter(unsortedListHero)
+
+def get_image_url(hero_name):
+    search_url = f"https://www.google.com/search?q={hero_name}+comics&tbm=isch"
+    response = requests.get(search_url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    imagesSec = soup.find_all("div")
+    for element in imagesSec:
+        images = element.find_all("img")
+        if images and "google" not in images[0]["src"]:
+            return (images[0]["src"])
+    return None
+
+def download_image(url, file_name):
+    if not url:
+        return
+    response = requests.get(url)
+    dir = "images/"
+    with open(dir + file_name, 'wb') as f:
+        f.write(response.content)
+
+for row in heroList:
+    name = row['name']
+    file_name = f"hero_{name}.jpg"
+    url = get_image_url(name)
+    row['path'] = file_name
+    download_image(url, file_name)
+
+testJson = json.dumps(heroList, indent=2)
+print(testJson)
