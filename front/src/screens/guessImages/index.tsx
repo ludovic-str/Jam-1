@@ -1,33 +1,35 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Autocomplete, Button } from "@mui/material";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
 import "./styles.css";
-import { fetchRandomHero, fetchHeroNames } from "../../api/hero";
-import type { Hero } from "../../types";
+import { fetchRandomHero, fetchHeroInfos } from "../../api/hero";
+import type { Hero, HeroBaseInfos, HeroValidation } from "../../types";
+import List from "../../components/list/"
+import SendIcon from '@mui/icons-material/Send';
 
 const GuessImages = () => {
   const [hero, setHero] = useState<Hero | null>(null);
-  const [heroNames, setHeroNames] = useState<string[]>([]);
+  const [heroInfos, setHeroInfos] = useState<HeroBaseInfos[]>([]);
+  const [list, setList] = useState<HeroValidation[]>([]);
   const [imagePath, setImagePath] = useState<string>("");
-  const [guess, setGuess] = useState<string>("");
+  const [guess, setGuess] = useState<HeroBaseInfos | null>(null);
 
   const imageCanvas = useRef<HTMLCanvasElement | null>(null);
   const navigate = useNavigate();
 
   const fetchHero = useCallback(async () => {
     const heroRes = await fetchRandomHero();
-    const heroNamesRes = await fetchHeroNames();
+    const heroInfosRes = await fetchHeroInfos();
 
     if (heroRes && hero === null) {
       setHero(heroRes);
-      console.log(heroRes.image);
       setImagePath("http://localhost:8080/assets/" + heroRes.image);
     }
 
-    if (heroNamesRes && heroNames.length === 0) setHeroNames(heroNamesRes);
-  }, [hero, heroNames.length]);
+    if (heroInfosRes && heroInfos.length === 0) setHeroInfos(heroInfosRes);
+  }, [hero, heroInfos.length]);
 
   const loadCanvasImage = useCallback(() => {
     const canvas = imageCanvas.current;
@@ -49,13 +51,33 @@ const GuessImages = () => {
     };
   }, [imagePath]);
 
+  const currentValidation = () => {
+    let myList = list;
+    if (guess) {
+      if (hero && guess && hero.name === guess.name) {
+        setList([...list, {...guess, isValid: true}])
+      } else if (guess) {
+        setList([...list, {...guess, isValid: false}])
+      }
+    }
+    console.log(myList)
+  };
+
   useEffect(() => {
     loadCanvasImage();
     fetchHero();
   }, [loadCanvasImage, fetchHero]);
 
   const handleGuessChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGuess(e.target.value);
+    let input: string;
+    if (e.target.textContent) {
+      input = e.target.textContent;
+    } else if (e.target.value) {
+      input = e.target.value;
+    }
+    let hero = heroInfos.find(hero => hero.name === input)
+    if (hero)
+      setGuess(hero);
   };
 
   const handleMenuClick = () => {
@@ -63,6 +85,7 @@ const GuessImages = () => {
   };
 
   return (
+    <>
     <div className="guess-images-container">
       <Button
         variant="contained"
@@ -77,8 +100,11 @@ const GuessImages = () => {
         <Autocomplete
           disablePortal
           id="combo-box-demo"
-          options={heroNames}
+          options={heroInfos.map(el => {return el.name})}
           sx={{ width: 300 }}
+          onChange={(event: any, newValue: string | null) => {
+            handleGuessChange(event)
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -88,8 +114,17 @@ const GuessImages = () => {
             />
           )}
         />
+      <Button 
+        variant="contained"
+        endIcon={<SendIcon />}
+        onClick={currentValidation}
+        >
+        Valider
+      </Button>
       </div>
     </div>
+    <List list={list} />
+    </>
   );
 };
 
