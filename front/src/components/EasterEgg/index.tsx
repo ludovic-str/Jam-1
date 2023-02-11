@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import BatmanGif from "../../assets/batman.gif";
+import BatmanSong from "../../assets/batman.mp3";
 import "./styles.css";
 
 const EasterEgg = () => {
@@ -21,12 +22,16 @@ const EasterEgg = () => {
     return pattern;
   }, []);
 
+  const audio = new Audio(BatmanSong);
+
   useEffect(() => {
     let index = 0;
     const handler = (e: KeyboardEvent) => {
       if (e.key === pattern[index]) {
         index++;
         if (index === pattern.length) {
+          console.log("event");
+          audio.play();
           setEasterEggClass("easter-egg easter-egg-animation");
         }
       } else {
