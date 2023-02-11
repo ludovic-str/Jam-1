@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
-import { TextField, Autocomplete } from "@mui/material";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { TextField, Autocomplete, Button } from "@mui/material";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
 import "./styles.css";
 import { fetchRandomHero, fetchHeroNames } from "../../api/hero";
@@ -11,31 +13,67 @@ const GuessImages = () => {
   const [imagePath, setImagePath] = useState<string>("");
   const [guess, setGuess] = useState<string>("");
 
-  useEffect(() => {
-    const fetchHero = async () => {
-      const heroRes = await fetchRandomHero();
-      const heroNamesRes = await fetchHeroNames();
+  const imageCanvas = useRef<HTMLCanvasElement | null>(null);
+  const navigate = useNavigate();
 
-      if (heroRes) {
-        setHero(heroRes);
-        console.log(heroRes.image);
-        setImagePath("http://localhost:8080/assets/" + heroRes.image);
-      }
+  const fetchHero = useCallback(async () => {
+    const heroRes = await fetchRandomHero();
+    const heroNamesRes = await fetchHeroNames();
 
-      if (heroNamesRes) setHeroNames(heroNamesRes);
+    if (heroRes && hero === null) {
+      setHero(heroRes);
+      console.log(heroRes.image);
+      setImagePath("http://localhost:8080/assets/" + heroRes.image);
+    }
+
+    if (heroNamesRes && heroNames.length === 0) setHeroNames(heroNamesRes);
+  }, [hero, heroNames.length]);
+
+  const loadCanvasImage = useCallback(() => {
+    const canvas = imageCanvas.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx) return;
+    const img = new Image();
+    img.src = imagePath;
+
+    img.height = 450;
+    img.width = 900;
+
+    let posX = -Math.floor(Math.random() * 600);
+    let posY = -Math.floor(Math.random() * 300);
+
+    img.onload = () => {
+      ctx.drawImage(img, posX, posY, img.width, img.height);
     };
+  }, [imagePath]);
 
+  useEffect(() => {
+    loadCanvasImage();
     fetchHero();
-  }, []);
+  }, [loadCanvasImage, fetchHero]);
 
   const handleGuessChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGuess(e.target.value);
   };
 
+  const handleMenuClick = () => {
+    navigate("/");
+  };
+
   return (
     <div className="guess-images-container">
+      <Button
+        variant="contained"
+        startIcon={<KeyboardReturnIcon />}
+        style={{ position: "absolute", top: "30px", left: "30px" }}
+        onClick={handleMenuClick}
+      >
+        Menu
+      </Button>
       <div className="guess-images-form-container">
-        <img src={imagePath} alt="tom" className="hero-image" />
+        <canvas className="hero-image" ref={imageCanvas} />
         <Autocomplete
           disablePortal
           id="combo-box-demo"
