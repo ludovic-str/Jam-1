@@ -119,7 +119,7 @@ const GuessImages = () => {
         endIcon={<SendIcon />}
         onClick={currentValidation}
         >
-        Valider
+        Validate
       </Button>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Autocomplete } from "@mui/material";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
@@ -67,56 +67,61 @@ const GuessCharacter = () => {
   };
 
   return (
-    <div className="guess-character-container">
-      <Button
-        variant="contained"
-        startIcon={<KeyboardReturnIcon />}
-        style={{ position: "absolute", top: "30px", left: "30px" }}
-        onClick={handleMenuClick}
-      >
-        Menu
-      </Button>
-      <div className="guess-character-form-container">
-        <div>
-          <h3 className="guess-character-title">Guess today's Super Hero</h3>
-          <h3 className="guess-character-subtitle">
-            Type any champion to begin.
-          </h3>
-        </div>
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={herosList.map((el) => {
-            return el.name;
-          })}
-          sx={{ width: 300 }}
-          onChange={(event: any, newValue: string | null) => {
-            if (newValue !== null) setGuess(newValue);
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Hero name"
-              onChange={handleGuessChange}
-              value={guess}
-            />
-          )}
-        />
+    <>
+      <div className="background"></div>
+      <div className="guess-character-container">
         <Button
           variant="contained"
-          endIcon={<SendIcon />}
-          onClick={handleGuess}
+          startIcon={<KeyboardReturnIcon />}
+          style={{ position: "fixed", top: "30px", left: "30px" }}
+          onClick={handleMenuClick}
         >
-          Valider
+          Menu
         </Button>
+        <div className="guess-character-form-container">
+          <div>
+            <h3 className="guess-character-title">Guess today's Super Hero</h3>
+            <h3 className="guess-character-subtitle">
+              Type any champion to begin.
+            </h3>
+          </div>
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={herosList.map((el) => {
+              return el.name;
+            })}
+            sx={{ width: 300 }}
+            onChange={(event: any, newValue: string | null) => {
+              if (newValue !== null) setGuess(newValue);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Hero name"
+                onChange={handleGuessChange}
+                value={guess}
+              />
+            )}
+          />
+          <Button
+            variant="contained"
+            endIcon={<SendIcon />}
+            onClick={handleGuess}
+          >
+            Validate
+          </Button>
+        </div>
       </div>
-      <div className="guess-character-res-container">
-        {guesses.map((el, index) => (
-          <CharacterGuess data={el} key={index} />
-        ))}
+      <div className="result-container">
+        <div className="guess-character-res-container">
+          {guesses.map((el, index) => (
+            <CharacterGuess data={el} key={index} />
+          ))}
         <GuessCategories />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
