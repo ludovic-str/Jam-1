@@ -1,0 +1,66 @@
+.flexbox-container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: center wrap;
+    align-items: center;
+}
+
+.flexbox-item {
+    transform: scale(1);
+    transition-duration: 0.5s;
+    width: 200px;
+    margin: 50px;
+    cursor: pointer;
+}
+
+.flexbox-item:hover {
+    transform: scale(1.2);
+    transition-duration: 0.5s;
+}
+
+.text {
+    transition-duration: 0.5s;
+}
+
+.icon {
+    transition-duration: 0.5s;
+}
+
+.flexbox-item:hover .text {
+    transition-duration: 0.5s;
+    opacity: 1;
+}
+
+.flexbox-item:hover .icon {
+    transition-duration: 0.5s;
+    opacity: 0;
+}
+
+.image_button {
+    min-height: 30px;
+}
+
+.quote_button {
+    min-height: 30px;
+}
+
+.emoji_button {
+    min-height: 30px;
+}
+
+.icon {
+    position: relative;
+    top: 5px;
+    left: 35px;
+    opacity: 1;
+}
+
+.text {
+    position: relative;
+    right: 10px;
+    opacity: 0;
+}
+
+/*
+    position: relative;
+*/
