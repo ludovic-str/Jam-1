@@ -50,12 +50,16 @@ const GuessImages = () => {
   }, [imagePath]);
 
   useEffect(() => {
+    let utterance = new SpeechSynthesisUtterance("Hello world!");
+    speechSynthesis.speak(utterance);
+
     loadCanvasImage();
     fetchHero();
   }, [loadCanvasImage, fetchHero]);
 
   const handleGuessChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGuess(e.target.value);
+    console.log(guess);
   };
 
   const handleMenuClick = () => {
