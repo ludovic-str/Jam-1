@@ -1,9 +1,11 @@
 #! /usr/bin/env python3
-
+import os
 import json
 from csv import DictReader
 import requests
 from bs4 import BeautifulSoup
+from pinterest import PinterestImageScraper
+import shutil
 
 with open("heroes_information.csv", 'r') as heroesInfo:
     csvReader = DictReader(heroesInfo)
@@ -76,33 +78,56 @@ def filter(unsortedListHero: list):
     return (finalHero)
 
 def getImage(heroList):
-    def get_image_url(hero_name):
-        search_url = f"https://www.google.com/search?q={hero_name}+comics&tbm=isch"
-        response = requests.get(search_url)
-        soup = BeautifulSoup(response.content, "html.parser")
-        imagesSec = soup.find_all("div")
-        for element in imagesSec:
-            images = element.find_all("img")
-            if images and "google" not in images[0]["src"]:
-                return (images[0]["src"])
-        return None
-
-    def download_image(url, file_name):
-        if not url:
-            return
-        response = requests.get(url)
-        dir = "images/"
-        with open(dir + file_name, 'wb') as f:
-            f.write(response.content)
     for row in heroList:
-        name = row['name']
-        file_name = f"hero_{name}.jpg"
-        url = get_image_url(name)
-        row['path'] = file_name
-        download_image(url, file_name)
+        # Replace spaces in the name with +
+        search_term = row['name'].replace(" ", "+") + "+comic+hero"
+        # Build the URL for the Google Images search
+        search_url = f"https://www.google.com/search?q={search_term}+image&rlz=1C1GCEU_enUS832US832&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiO5M6Z5M_iAhXOyDgGHQslAQQ_AUIEigB&biw=1366&bih=657#imgrc=_"
+
+        # Make a GET request to the URL
+        response = requests.get(search_url)
+
+        # If the request is successful (status code 200),
+        if response.status_code == 200:
+            # Parse the HTML content
+            soup = BeautifulSoup(response.text, "html.parser")
+
+            # Find the first image in the search results
+            image_url = soup.find_all("img")[1].get('src')
+
+            # Download the image
+            image_response = requests.get(image_url)
+
+            # Save the image to disk
+            with open(f"images/{row['name']}.jpg", "wb") as f:
+                f.write(image_response.content)
     return(heroList)
+
+def rearrangeFile():
+    src_dir = '.'
+    dst_dir = 'images'
+    if not os.path.exists(dst_dir):
+        os.makedirs(dst_dir)
+
+    for hero_dir in os.listdir(src_dir):
+        if '_Comic' not in hero_dir:
+            continue
+        hero_path = os.path.join(src_dir, hero_dir)
+        if os.path.isdir(hero_path):
+            for file in os.listdir(hero_path):
+                file_path = os.path.join(hero_path, file)
+                if os.path.isfile(file_path):
+                    hero_name = hero_dir.split('_')[0]
+                    new_file_name = hero_name + '.png'
+                    dst_path = os.path.join(dst_dir, new_file_name)
+                    shutil.move(file_path, dst_path)
+                    shutil.rmtree(hero_path, ignore_errors=True)
 
 heroList = filter(unsortedListHero)
 #herolist = getImage(heroList)
+#rearrangeFile()
+for row in heroList:
+    row['images'] = row['name'] + '.jpg'
 testJson = json.dumps(heroList, indent=2)
-print(testJson)
+with open("hero.json", "w") as outfile:
+    json.dump(heroList, outfile, indent=2)

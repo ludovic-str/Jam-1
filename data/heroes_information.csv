@@ -27,7 +27,6 @@ id,name,gender,eyeColor,race,hairColor,height,publisher,skinColor,alignment,weig
 25,Angel Salvadore,Female,brown,-,Black,163.0,Marvel Comics,-,good,54.0
 26,Angela,Female,-,-,-,-99.0,Image Comics,-,bad,-99.0
 27,Animal Man,Male,blue,Human,Blond,183.0,DC Comics,-,good,83.0
-28,Annihilus,Male,green,-,No Hair,180.0,Marvel Comics,-,bad,90.0
 29,Ant-Man,Male,blue,Human,Blond,211.0,Marvel Comics,-,good,122.0
 30,Ant-Man II,Male,blue,Human,Blond,183.0,Marvel Comics,-,good,86.0
 31,Anti-Monitor,Male,yellow,God / Eternal,No Hair,61.0,DC Comics,-,bad,-99.0
