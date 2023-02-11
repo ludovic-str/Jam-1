@@ -1,7 +1,7 @@
 import "./styles.css";
 import Button from '@mui/material/Button';
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
-import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import { useNavigate } from "react-router-dom";
 import React from "react";
@@ -14,7 +14,7 @@ const ButtonsReverse = () => {
   };
 
   const handleQuoteClick = () => {
-    navigate("/guess/quote");
+    navigate("/guess/character");
   };
 
   const handleEmojiClick = () => {
@@ -48,8 +48,8 @@ const ButtonsReverse = () => {
       backgroundColor: "#E33E39",}}
       onClick={handleQuoteClick}
       >
-        <p className="icon"><FormatQuoteIcon></FormatQuoteIcon></p>
-        <p className="text">Quote</p>
+        <p className="icon"><AccountCircleIcon></AccountCircleIcon></p>
+        <p className="text">Chara</p>
           </Button>
       </div>
       <div className="flexbox-item emoji_button">

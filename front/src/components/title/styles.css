@@ -23,7 +23,7 @@
 }
 
 .section h1{
-  font-size: 200px;
+  font-size: 130px;
   font-weight: 900;
   text-transform: uppercase;
   text-align: center;
@@ -33,4 +33,3 @@
   color: #E33E39;
   text-shadow: 0 20px 40px rgba(0,0,0,.5);
 }
-
