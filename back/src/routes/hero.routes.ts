@@ -14,15 +14,15 @@ export default (
   instance.get("/", async (req: FastifyRequest, res: FastifyReply) => {
     const id = Math.floor(Math.random() * HerosConfig.length);
 
-    console.log("id", id);
-
     res.status(httpStatus.OK).send(HerosConfig[id]);
   });
 
-  instance.get("/names", async (req: FastifyRequest, res: FastifyReply) => {
-    const names = HerosConfig.map((hero) => hero.name);
+  instance.get("/infos", async (req: FastifyRequest, res: FastifyReply) => {
+    const infos = HerosConfig.map((hero) => {
+      return { name: hero.name, image: hero.image };
+    });
 
-    res.status(httpStatus.OK).send(names);
+    res.status(httpStatus.OK).send(infos);
   });
   done();
 };
