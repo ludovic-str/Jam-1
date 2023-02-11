@@ -52,15 +52,14 @@ const GuessImages = () => {
   }, [imagePath]);
 
   const currentValidation = () => {
-    let myList = list;
     if (guess) {
       if (hero && guess && hero.name === guess.name) {
-        setList([...list, {...guess, isValid: true}])
+        setList([{...guess, isValid: true}, ...list])
       } else if (guess) {
-        setList([...list, {...guess, isValid: false}])
+        setList([{...guess, isValid: false}, ...list])
       }
+      // heroInfos.splice(heroInfos.findIndex(el => el.name === guess.name), 1)
     }
-    console.log(myList)
   };
 
   useEffect(() => {
@@ -86,11 +85,12 @@ const GuessImages = () => {
 
   return (
     <>
+    <div className="background"></div>
     <div className="guess-images-container">
       <Button
         variant="contained"
         startIcon={<KeyboardReturnIcon />}
-        style={{ position: "absolute", top: "30px", left: "30px" }}
+        style={{ position: "fixed", top: "30px", left: "30px" }}
         onClick={handleMenuClick}
       >
         Menu
