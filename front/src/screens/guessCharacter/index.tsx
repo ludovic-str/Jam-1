@@ -5,7 +5,7 @@ import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import SendIcon from "@mui/icons-material/Send";
 
 import "./styles.css";
-import { Hero } from "../../types";
+import { Hero, HeroGuess } from "../../types";
 import { fetchAllHeros, fetchRandomHero } from "../../api/hero";
 import CharacterGuess from "../../components/CharacterGuess";
 import GuessCategories from "../../components/GuessCategories";
@@ -14,6 +14,7 @@ const GuessCharacter = () => {
   const [guess, setGuess] = useState<string>("");
   const [herosList, setHeroList] = useState<Hero[]>([]);
   const [hero, setHero] = useState<Hero | null>(null);
+  const [guesses, setGuesses] = useState<HeroGuess[]>([]);
 
   useEffect(() => {
     const fetchHeroList = async () => {
@@ -42,8 +43,25 @@ const GuessCharacter = () => {
   const handleGuess = () => {
     const heroFound = herosList.find((el) => el.name === guess);
     console.log(guess);
-    if (guess.length !== 0 && heroFound !== undefined) {
-      console.log("ok");
+    if (guess.length !== 0 && heroFound !== undefined && hero !== null) {
+      const heroGuess: HeroGuess = {
+        image: heroFound.image,
+        gender: heroFound.gender,
+        isGenderValid: heroFound.gender === hero.gender,
+        species: heroFound.race,
+        isSpeciesValid: heroFound.race === hero.race,
+        height: heroFound.height,
+        isHeightValid: heroFound.height === hero.height,
+        weight: heroFound.weight,
+        isWeightValid: heroFound.weight === hero.weight,
+        hairColor: heroFound.hairColor,
+        isHairColorValid: heroFound.hairColor === hero.hairColor,
+        skinColor: heroFound.skinColor,
+        isSkinColorValid: heroFound.skinColor === hero.skinColor,
+        publisher: heroFound.publisher,
+        isPublisherValid: heroFound.publisher === hero.publisher,
+      };
+      setGuesses([...guesses, heroGuess]);
       setGuess("");
     }
   };
@@ -93,7 +111,9 @@ const GuessCharacter = () => {
         </Button>
       </div>
       <div className="guess-character-res-container">
-        <CharacterGuess />
+        {guesses.map((el, index) => (
+          <CharacterGuess data={el} key={index} />
+        ))}
         <GuessCategories />
       </div>
     </div>

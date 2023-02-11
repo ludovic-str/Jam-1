@@ -1,0 +1,17 @@
+.flexbox-checkbox {
+    display: flex;
+    justify-content: right;
+    align-items: flex-end;
+}
+
+.flexbox-check-item {
+    transform: scale(2);
+    width: 150px;
+    margin: 50px;
+}
+
+.checkbox {
+    position: relative;
+    top: 100px;
+    Color: #E33E39;
+}
