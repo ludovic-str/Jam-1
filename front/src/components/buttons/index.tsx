@@ -1,10 +1,10 @@
-
 import "./styles.css";
 import Button from '@mui/material/Button';
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const ButtonsReverse = () => {
   const navigate = useNavigate();

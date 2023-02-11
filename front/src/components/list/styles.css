@@ -1,0 +1,38 @@
+.test {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    top: -70px;
+}
+
+.element_valid {
+    margin-bottom: 10px;
+    background-color: #3ab13a;
+    display: flex;
+    color: white;
+    height: 50px;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 10%);
+    width: 440px;
+    align-items: center;
+    border: 5px solid white;
+    border-radius: 10px;
+    justify-content: center;
+    transition-property: opacity;
+    transition-duration: 0.5s;
+    opacity: 100%;
+}
+
+.element_invalid {
+    margin-bottom: 10px;
+    background-color: #b13a3a;
+    display: flex;
+    color: white;
+    height: 50px;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 10%);
+    width: 440px;
+    align-items: center;
+    border: 5px solid white;
+    border-radius: 10px;
+    justify-content: center;
+}
