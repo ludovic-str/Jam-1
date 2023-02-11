@@ -1,0 +1,19 @@
+.easter-egg {
+  z-index: 1000;
+  position: absolute;
+  bottom: 0;
+  left: -500px;
+}
+
+.easter-egg-animation {
+  animation: move 8s;
+}
+
+@keyframes move {
+  0% {
+    left: -500px;
+  }
+  100% {
+    left: 100%;
+  }
+}
