@@ -38,4 +38,23 @@ const fetchHeroNames = async () => {
   return heroNames as string[];
 };
 
-export { fetchRandomHero, fetchHeroNames };
+const fetchAllHeros = async () => {
+  const res = await fetch("http://localhost:8080/heros/all", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "https://localhost:8080",
+    },
+  });
+
+  const heros = await res.json();
+
+  if (res.status !== 200) {
+    return null;
+  }
+
+  return heros as Hero[];
+};
+
+export { fetchRandomHero, fetchHeroNames, fetchAllHeros };
