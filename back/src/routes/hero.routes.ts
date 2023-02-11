@@ -4,7 +4,6 @@ import httpStatus from "http-status";
 
 import { FastifyPluginDoneFunction } from "../types/global.types";
 import HerosConfig from "../../assets/heros.json";
-import ClientError from "../error";
 
 export default (
   instance: FastifyInstance,
