@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { TextField, Autocomplete } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { TextField, Autocomplete, Button } from "@mui/material";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
 import "./styles.css";
 import { fetchRandomHero, fetchHeroNames } from "../../api/hero";
@@ -12,6 +14,7 @@ const GuessImages = () => {
   const [guess, setGuess] = useState<string>("");
 
   const imageCanvas = useRef<HTMLCanvasElement | null>(null);
+  const navigate = useNavigate();
 
   const fetchHero = useCallback(async () => {
     const heroRes = await fetchRandomHero();
@@ -55,8 +58,20 @@ const GuessImages = () => {
     setGuess(e.target.value);
   };
 
+  const handleMenuClick = () => {
+    navigate("/");
+  };
+
   return (
     <div className="guess-images-container">
+      <Button
+        variant="contained"
+        startIcon={<KeyboardReturnIcon />}
+        style={{ position: "absolute", top: "30px", left: "30px" }}
+        onClick={handleMenuClick}
+      >
+        Menu
+      </Button>
       <div className="guess-images-form-container">
         <canvas className="hero-image" ref={imageCanvas} />
         <Autocomplete
