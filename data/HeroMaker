@@ -18,7 +18,7 @@ def filter(unsortedListHero: list):
 
     listHero = []
     for row in unsortedListHero:
-        if (isMarvelOrDc(row['Publisher']) and isFirstEdition(row['name'])):
+        if (isMarvelOrDc(row['publisher']) and isFirstEdition(row['name'])):
             listHero.append(row)
 
     sortedHero = []
@@ -27,7 +27,7 @@ def filter(unsortedListHero: list):
         multiple = []
         if listHero[i]['name'] == listHero[i - 1]['name']:
             for j in range(i - 1, len(listHero)):
-                if listHero[i]['name'] == listHero[j]['name'] and listHero[i]['Publisher'] == listHero[j]['Publisher']:
+                if listHero[i]['name'] == listHero[j]['name'] and listHero[i]['publisher'] == listHero[j]['publisher']:
                     multiple.append(j)
                 else:
                     break
@@ -75,33 +75,34 @@ def filter(unsortedListHero: list):
             tmp.add(elem['name'])
     return (finalHero)
 
+def getImage(heroList):
+    def get_image_url(hero_name):
+        search_url = f"https://www.google.com/search?q={hero_name}+comics&tbm=isch"
+        response = requests.get(search_url)
+        soup = BeautifulSoup(response.content, "html.parser")
+        imagesSec = soup.find_all("div")
+        for element in imagesSec:
+            images = element.find_all("img")
+            if images and "google" not in images[0]["src"]:
+                return (images[0]["src"])
+        return None
+
+    def download_image(url, file_name):
+        if not url:
+            return
+        response = requests.get(url)
+        dir = "images/"
+        with open(dir + file_name, 'wb') as f:
+            f.write(response.content)
+    for row in heroList:
+        name = row['name']
+        file_name = f"hero_{name}.jpg"
+        url = get_image_url(name)
+        row['path'] = file_name
+        download_image(url, file_name)
+    return(heroList)
+
 heroList = filter(unsortedListHero)
-
-def get_image_url(hero_name):
-    search_url = f"https://www.google.com/search?q={hero_name}+comics&tbm=isch"
-    response = requests.get(search_url)
-    soup = BeautifulSoup(response.content, "html.parser")
-    imagesSec = soup.find_all("div")
-    for element in imagesSec:
-        images = element.find_all("img")
-        if images and "google" not in images[0]["src"]:
-            return (images[0]["src"])
-    return None
-
-def download_image(url, file_name):
-    if not url:
-        return
-    response = requests.get(url)
-    dir = "images/"
-    with open(dir + file_name, 'wb') as f:
-        f.write(response.content)
-
-for row in heroList:
-    name = row['name']
-    file_name = f"hero_{name}.jpg"
-    url = get_image_url(name)
-    row['path'] = file_name
-    download_image(url, file_name)
-
+#herolist = getImage(heroList)
 testJson = json.dumps(heroList, indent=2)
 print(testJson)
