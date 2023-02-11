@@ -1,4 +1,4 @@
-import type { Hero } from "../types";
+import type { Hero, HeroBaseInfos } from "../types";
 
 const fetchRandomHero = async () => {
   const res = await fetch("http://localhost:8080/heros", {
@@ -19,8 +19,8 @@ const fetchRandomHero = async () => {
   return hero as Hero;
 };
 
-const fetchHeroNames = async () => {
-  const res = await fetch("http://localhost:8080/heros/names", {
+const fetchHeroInfos = async () => {
+  const res = await fetch("http://localhost:8080/heros/infos", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -29,13 +29,13 @@ const fetchHeroNames = async () => {
     },
   });
 
-  const heroNames = await res.json();
+  const heroInfos = await res.json();
 
   if (res.status !== 200) {
     return null;
   }
 
-  return heroNames as string[];
+  return heroInfos as HeroBaseInfos[];
 };
 
 const fetchAllHeros = async () => {
@@ -57,4 +57,4 @@ const fetchAllHeros = async () => {
   return heros as Hero[];
 };
 
-export { fetchRandomHero, fetchHeroNames, fetchAllHeros };
+export { fetchRandomHero, fetchHeroInfos, fetchAllHeros };
