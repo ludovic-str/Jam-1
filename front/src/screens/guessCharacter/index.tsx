@@ -1,4 +1,4 @@
-import { useState, useEffect, SyntheticEvent } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Autocomplete } from "@mui/material";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
@@ -7,6 +7,8 @@ import SendIcon from "@mui/icons-material/Send";
 import "./styles.css";
 import { Hero } from "../../types";
 import { fetchAllHeros, fetchRandomHero } from "../../api/hero";
+import CharacterGuess from "../../components/CharacterGuess";
+import GuessCategories from "../../components/GuessCategories";
 
 const GuessCharacter = () => {
   const [guess, setGuess] = useState<string>("");
@@ -91,28 +93,8 @@ const GuessCharacter = () => {
         </Button>
       </div>
       <div className="guess-character-res-container">
-        <div className="classic-answer">
-          <div className="square-container">
-            <div className="square">
-              <div className="square-content">
-                <img
-                  src="https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/Ashe.png"
-                  width="100%"
-                  height="100%"
-                />
-              </div>
-            </div>
-            <div className="square">
-              <div className="square-content">
-                <img
-                  src="https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/Ashe.png"
-                  width="100%"
-                  height="100%"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <CharacterGuess />
+        <GuessCategories />
       </div>
     </div>
   );

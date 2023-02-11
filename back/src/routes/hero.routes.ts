@@ -17,6 +17,10 @@ export default (
     res.status(httpStatus.OK).send(HerosConfig[id]);
   });
 
+  instance.get("/all", (req: FastifyRequest, res: FastifyReply) => {
+    res.status(httpStatus.OK).send(HerosConfig);
+  });
+
   instance.get("/infos", async (req: FastifyRequest, res: FastifyReply) => {
     const infos = HerosConfig.map((hero) => {
       return { name: hero.name, image: hero.image };

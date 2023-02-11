@@ -1,0 +1,54 @@
+.classic-answers-container {
+  margin-bottom: 0.5rem;
+}
+
+.answer-titles {
+  display: flex;
+  flex-wrap: wrap;
+  animation-name: fadeIn;
+  animation-fill-mode: both;
+  animation-duration: 1s;
+}
+
+.square-title {
+  flex-basis: calc(12.5% - 4px);
+  border: none !important;
+  font-size: 0.9rem;
+  position: relative;
+  margin: 2px;
+  box-sizing: border-box;
+  transition: flex-basis 0.1s ease;
+  height: 96px;
+  width: 96px;
+}
+
+.square-title-content {
+  position: absolute;
+  flex-direction: row;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-top: 0;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  cursor: default;
+  text-shadow: 0 0 3px #000;
+  word-break: normal !important;
+  box-shadow: none;
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.square-title-content:before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  bottom: 0;
+  height: 1px;
+  width: 80px; /* or 100px */
+  border-bottom: 3px solid white;
+}

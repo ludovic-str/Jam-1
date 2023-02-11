@@ -44,41 +44,13 @@
   flex-direction: column-reverse;
 }
 
-.classic-answer {
-  margin-bottom: 1rem;
-  width: 100%;
-}
-
-.square-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.square {
-  flex-basis: calc(12.5% - 4px);
-  position: relative;
-  margin: 2px;
-  border: 1px solid hsla(0, 0%, 100%, 0.59);
-  box-sizing: border-box;
-  transition: flex-basis 0.1s ease;
-  height: 96px;
-  width: 96px;
-}
-
-.square-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding-top: 0;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  cursor: default;
-  text-shadow: 0 0 3px #000;
-  box-shadow: inset 0 0 6px #000;
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes gradient {
