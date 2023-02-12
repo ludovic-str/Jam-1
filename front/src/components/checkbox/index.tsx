@@ -22,9 +22,9 @@ function Checkboxes() {
         {...label}
         defaultChecked
         sx={{
-          color: red[800],
+          // color: white[800],
           '&.Mui-checked': {
-            color: red[600],
+            // color: red[600],
           },
         }}
       />
@@ -39,9 +39,9 @@ function Checkboxes() {
         {...label}
         defaultChecked
         sx={{
-          color: red[800],
+          // color: red[800],
           '&.Mui-checked': {
-            color: red[600],
+            // color: red[600],
           },
         }}
       />

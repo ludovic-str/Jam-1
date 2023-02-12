@@ -30,6 +30,6 @@
 }
 
 .content-theme-dark h1{
-  color: #E33E39;
-  text-shadow: 0 20px 40px rgba(0,0,0,.5);
+  color: white;
+  text-shadow: 0 0px 20px rgb(0 0 0 / 50%);
 }
