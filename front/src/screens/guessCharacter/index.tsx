@@ -3,8 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { TextField, Button, Autocomplete } from "@mui/material";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import SendIcon from "@mui/icons-material/Send";
+import LoopIcon from "@mui/icons-material/Loop";
 
 import "./styles.css";
+import { toast } from "react-toastify";
+
 import { Hero, HeroGuess } from "../../types";
 import { fetchAllHeros, fetchRandomHero } from "../../api/hero";
 import CharacterGuess from "../../components/CharacterGuess";
@@ -15,11 +18,14 @@ const GuessCharacter = () => {
   const [herosList, setHeroList] = useState<Hero[]>([]);
   const [hero, setHero] = useState<Hero | null>(null);
   const [guesses, setGuesses] = useState<HeroGuess[]>([]);
+  const [isReroll, setIsReroll] = useState<boolean>(false);
 
   useEffect(() => {
+    setIsReroll(false);
     const fetchHeroList = async () => {
       const heroListRes = await fetchAllHeros();
       const heroRes = await fetchRandomHero();
+      console.log(heroRes);
 
       if (heroListRes) setHeroList(heroListRes);
 
@@ -27,17 +33,21 @@ const GuessCharacter = () => {
     };
 
     fetchHeroList();
-  }, []);
+  }, [isReroll]);
 
   const navigate = useNavigate();
 
   const handleGuessChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setGuess(e.target.value);
   };
 
   const handleMenuClick = () => {
     navigate("/");
+  };
+
+  const handleRerollClick = () => {
+    setIsReroll(true);
+    setGuesses([]);
   };
 
   const handleGuess = () => {
@@ -62,6 +72,11 @@ const GuessCharacter = () => {
         isPublisherValid: heroFound.publisher === hero.publisher,
       };
       setGuesses([...guesses, heroGuess]);
+      if (hero.name === guess) {
+        toast.success("You guessed it right!", {
+          autoClose: 2000,
+        });
+      }
       setGuess("");
     }
   };
@@ -104,13 +119,23 @@ const GuessCharacter = () => {
               />
             )}
           />
-          <Button
-            variant="contained"
-            endIcon={<SendIcon />}
-            onClick={handleGuess}
-          >
-            Validate
-          </Button>
+          <div className="character-buttons-container">
+            <Button
+              variant="contained"
+              color="error"
+              endIcon={<LoopIcon />}
+              onClick={handleRerollClick}
+            >
+              Reroll
+            </Button>
+            <Button
+              variant="contained"
+              endIcon={<SendIcon />}
+              onClick={handleGuess}
+            >
+              Validate
+            </Button>
+          </div>
         </div>
       </div>
       <div className="result-container">
@@ -118,7 +143,7 @@ const GuessCharacter = () => {
           {guesses.map((el, index) => (
             <CharacterGuess data={el} key={index} />
           ))}
-        <GuessCategories />
+          <GuessCategories />
         </div>
       </div>
     </>
