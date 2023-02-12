@@ -2,16 +2,13 @@
     display: flex;
     justify-content: right;
     align-items: flex-end;
-}
-
-.flexbox-check-item {
-    transform: scale(2);
-    width: 150px;
-    margin: 50px;
+    margin: 38px;
+    position: absolute;
+    bottom: 0px;
+    right: 0;
 }
 
 .checkbox {
     position: relative;
-    top: 100px;
     Color: #E33E39;
 }

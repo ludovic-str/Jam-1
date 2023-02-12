@@ -13,6 +13,10 @@
     cursor: pointer;
 }
 
+button[type=button] {
+    display: flex;
+}
+
 .flexbox-item:hover {
     transform: scale(1.2);
     transition-duration: 0.5s;
@@ -24,6 +28,14 @@
 
 .icon {
     transition-duration: 0.5s;
+    position: relative;
+    top: 12px;
+    display: flex;
+    height: 100%;
+    opacity: 1;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .flexbox-item:hover .text {
@@ -49,14 +61,13 @@
 }
 
 .icon {
-    position: relative;
-    top: 5px;
-    left: 35px;
+    position: absolute;
+    display: flex;
+    top: -21px;
     opacity: 1;
 }
 
 .text {
     position: relative;
-    right: 10px;
     opacity: 0;
 }

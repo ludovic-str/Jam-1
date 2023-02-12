@@ -14,7 +14,9 @@ function Checkboxes() {
       <div className="flexbox-check-item checkbox">
 
     <FormGroup>
-      <FormControlLabel control={
+      <FormControlLabel 
+        labelPlacement="start"
+        control={
         <div>
       <Checkbox
         {...label}
@@ -29,7 +31,9 @@ function Checkboxes() {
     </div>
     } label="Marvel" />
 
-    <FormControlLabel control={
+    <FormControlLabel 
+      labelPlacement="start"
+      control={
         <div>
       <Checkbox
         {...label}

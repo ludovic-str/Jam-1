@@ -50,7 +50,7 @@ const ButtonsReverse = () => {
       onClick={handleQuoteClick}
       >
         <p className="icon"><AccountCircleIcon></AccountCircleIcon></p>
-        <p className="text">Chara</p>
+        <p className="text">Character</p>
           </Button>
       </div>
       <div className="flexbox-item emoji_button">
