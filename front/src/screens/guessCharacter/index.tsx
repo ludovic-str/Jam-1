@@ -104,9 +104,9 @@ const GuessCharacter = () => {
         </Button>
         <div className="guess-character-form-container">
           <div>
-            <h3 className="guess-character-title">Guess today's Super Hero</h3>
+            <h3 className="guess-character-title">Guess the Super Hero</h3>
             <h3 className="guess-character-subtitle">
-              Type any champion to begin.
+              Type any hero to begin.
             </h3>
           </div>
           <Autocomplete

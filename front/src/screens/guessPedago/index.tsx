@@ -110,9 +110,9 @@ const GuessPedago = () => {
         </Button>
         <div className="guess-character-form-container">
           <div>
-            <h3 className="guess-character-title">Guess today's Super Hero</h3>
+            <h3 className="guess-character-title">Guess the Super Pedago</h3>
             <h3 className="guess-character-subtitle">
-              Type any champion to begin.
+              Type any pedago to begin.
             </h3>
           </div>
           <Autocomplete
@@ -128,7 +128,7 @@ const GuessPedago = () => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Hero name"
+                label="Pedago Name"
                 onChange={handleGuessChange}
                 value={guess}
               />
