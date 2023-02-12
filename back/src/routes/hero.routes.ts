@@ -22,7 +22,7 @@ export default (
 
   instance.get("/infos", async (req: FastifyRequest, res: FastifyReply) => {
     const infos = HerosConfig.map((hero) => {
-      return { name: hero.name, image: hero.image };
+      return { name: hero.name, image: hero.image, publisher: hero.publisher };
     });
 
     res.status(httpStatus.OK).send(infos);
