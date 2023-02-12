@@ -8,28 +8,28 @@ import LoopIcon from "@mui/icons-material/Loop";
 import "./styles.css";
 import { toast } from "react-toastify";
 
-import { Hero, HeroGuess, NumberFieldValidation } from "../../types";
-import { fetchAllHeros, fetchRandomHero } from "../../api/hero";
-import CharacterGuess from "../../components/CharacterGuess";
-import GuessCategories from "../../components/GuessCategories";
+import { NumberFieldValidation, Pedago, PedagoGuess } from "../../types";
+import { fetchAllPedagos, fetchRandomPedago } from "../../api/hero";
+import PedagoGuessItem from "../../components/PedagoGuess";
+import PedagoCategories from "../../components/PedagoCategories";
 
-const GuessCharacter = () => {
+const GuessPedago = () => {
   const [guess, setGuess] = useState<string>("");
-  const [herosList, setHeroList] = useState<Hero[]>([]);
-  const [hero, setHero] = useState<Hero | null>(null);
-  const [guesses, setGuesses] = useState<HeroGuess[]>([]);
+  const [pedagoList, setPedagoList] = useState<Pedago[]>([]);
+  const [pedago, setPedago] = useState<Pedago | null>(null);
+  const [guesses, setGuesses] = useState<PedagoGuess[]>([]);
   const [isReroll, setIsReroll] = useState<boolean>(false);
 
   useEffect(() => {
     setIsReroll(false);
     const fetchHeroList = async () => {
-      const heroListRes = await fetchAllHeros();
-      const heroRes = await fetchRandomHero();
-      console.log(heroRes);
+      const pedagoListRes = await fetchAllPedagos();
+      const pedagoRes = await fetchRandomPedago();
+      console.log(pedagoRes);
 
-      if (heroListRes) setHeroList(heroListRes);
+      if (pedagoListRes) setPedagoList(pedagoListRes);
 
-      if (heroRes) setHero(heroRes);
+      if (pedagoRes) setPedago(pedagoRes);
     };
 
     fetchHeroList();
@@ -60,28 +60,34 @@ const GuessCharacter = () => {
   };
 
   const handleGuess = () => {
-    const heroFound = herosList.find((el) => el.name === guess);
-    console.log(guess);
-    if (guess.length !== 0 && heroFound !== undefined && hero !== null) {
-      const heroGuess: HeroGuess = {
-        image: heroFound.image,
-        gender: heroFound.gender,
-        isGenderValid: heroFound.gender === hero.gender,
-        species: heroFound.race,
-        isSpeciesValid: heroFound.race === hero.race,
-        height: heroFound.height,
-        isHeightValid: getNumberFieldValidation(hero.height, heroFound.height),
-        weight: heroFound.weight,
-        isWeightValid: getNumberFieldValidation(hero.weight, heroFound.weight),
-        hairColor: heroFound.hairColor,
-        isHairColorValid: heroFound.hairColor === hero.hairColor,
-        skinColor: heroFound.skinColor,
-        isSkinColorValid: heroFound.skinColor === hero.skinColor,
-        publisher: heroFound.publisher,
-        isPublisherValid: heroFound.publisher === hero.publisher,
+    const pedagoFound = pedagoList.find((el) => el.name === guess);
+    if (guess.length !== 0 && pedagoFound !== undefined && pedago !== null) {
+      console.log(pedagoFound.favoriteIDE === pedago.favoriteIDE);
+      const pedagoGuess: PedagoGuess = {
+        image: pedagoFound.image,
+        role: pedagoFound.role,
+        isRoleValid: pedagoFound.role === pedago.role,
+        mainLanguage: pedagoFound.mainLanguage,
+        isMainLanguageValid: pedagoFound.mainLanguage === pedago.mainLanguage,
+        gender: pedagoFound.gender,
+        isGenderValid: pedagoFound.gender === pedago.gender,
+        height: pedagoFound.height,
+        isHeightValid: getNumberFieldValidation(
+          pedago.height,
+          pedagoFound.height
+        ),
+        favoriteIDE: pedagoFound.favoriteIDE,
+        isFavoriteIDEValid: pedagoFound.favoriteIDE === pedago.favoriteIDE,
+        graduationYear: pedagoFound.graduationYear,
+        isGraduationYearValid: getNumberFieldValidation(
+          pedago.graduationYear,
+          pedagoFound.graduationYear
+        ),
+        hairColor: pedagoFound.hairColor,
+        isHairColorValid: pedagoFound.hairColor === pedago.hairColor,
       };
-      setGuesses([...guesses, heroGuess]);
-      if (hero.name === guess) {
+      setGuesses([...guesses, pedagoGuess]);
+      if (pedago.name === guess) {
         toast.success("You guessed it right!", {
           autoClose: 2000,
         });
@@ -104,15 +110,15 @@ const GuessCharacter = () => {
         </Button>
         <div className="guess-character-form-container">
           <div>
-            <h3 className="guess-character-title">Guess the Super Hero</h3>
+            <h3 className="guess-character-title">Guess the Super Pedago</h3>
             <h3 className="guess-character-subtitle">
-              Type any hero to begin.
+              Type any pedago to begin.
             </h3>
           </div>
           <Autocomplete
             disablePortal
             id="combo-box-demo"
-            options={herosList.map((el) => {
+            options={pedagoList.map((el) => {
               return el.name;
             })}
             sx={{ width: 300 }}
@@ -122,7 +128,7 @@ const GuessCharacter = () => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Hero name"
+                label="Pedago Name"
                 onChange={handleGuessChange}
                 value={guess}
               />
@@ -150,13 +156,13 @@ const GuessCharacter = () => {
       <div className="result-container">
         <div className="guess-character-res-container">
           {guesses.map((el, index) => (
-            <CharacterGuess data={el} key={index} />
+            <PedagoGuessItem data={el} key={index} />
           ))}
-          <GuessCategories />
+          <PedagoCategories />
         </div>
       </div>
     </>
   );
 };
 
-export default GuessCharacter;
+export default GuessPedago;

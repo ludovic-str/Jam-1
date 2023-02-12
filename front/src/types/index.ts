@@ -1,6 +1,7 @@
 export interface HeroBaseInfos {
   name: string;
   image: string;
+  publisher: string;
 }
 
 export interface Hero {
@@ -42,5 +43,37 @@ export interface HeroGuess {
 export interface HeroValidation {
   name: string;
   image: string;
+  publisher: string;
   isValid: boolean;
+}
+
+export interface PedagoGuess {
+  image: string;
+  role: string;
+  isRoleValid: boolean;
+  gender: string;
+  isGenderValid: boolean;
+  mainLanguage: string;
+  isMainLanguageValid: boolean;
+  hairColor: string;
+  isHairColorValid: boolean;
+  height: number;
+  isHeightValid: NumberFieldValidation;
+  graduationYear: number;
+  isGraduationYearValid: NumberFieldValidation;
+  favoriteIDE: string;
+  isFavoriteIDEValid: boolean;
+}
+
+export interface Pedago {
+  id: number;
+  name: string;
+  role: string;
+  gender: string;
+  mainLanguage: string;
+  hairColor: string;
+  height: number;
+  graduationYear: number;
+  favoriteIDE: string;
+  image: string;
 }

@@ -1,4 +1,4 @@
-import type { Hero, HeroBaseInfos } from "../types";
+import type { Hero, HeroBaseInfos, Pedago } from "../types";
 
 const fetchRandomHero = async () => {
   const res = await fetch("http://localhost:8080/heros", {
@@ -95,4 +95,42 @@ const fetchDCHeros = async () => {
   return hero as Hero;
 };
 
-export { fetchRandomHero, fetchHeroInfos, fetchAllHeros, fetchMarvelHeros, fetchDCHeros };
+const fetchRandomPedago = async () => {
+  const res = await fetch("http://localhost:8080/heros/pedago", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "https://localhost:8080",
+    },
+  });
+
+  const pedago = await res.json();
+
+  if (res.status !== 200) {
+    return null;
+  }
+
+  return pedago as Pedago;
+};
+
+const fetchAllPedagos = async () => {
+  const res = await fetch("http://localhost:8080/heros/pedago/all", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "https://localhost:8080",
+    },
+  });
+
+  const pedagos = await res.json();
+
+  if (res.status !== 200) {
+    return null;
+  }
+
+  return pedagos as Pedago[];
+};
+
+export { fetchRandomHero, fetchHeroInfos, fetchAllHeros, fetchMarvelHeros, fetchDCHeros, fetchRandomPedago, fetchAllPedagos };
