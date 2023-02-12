@@ -95,4 +95,4 @@ const fetchDCHeros = async () => {
   return hero as Hero;
 };
 
-export { fetchRandomHero, fetchHeroInfos, fetchAllHeros };
+export { fetchRandomHero, fetchHeroInfos, fetchAllHeros, fetchMarvelHeros, fetchDCHeros };
