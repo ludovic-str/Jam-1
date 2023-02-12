@@ -1,6 +1,5 @@
 .guess-character-container {
   display: flex;
-  overflow-y: scroll;
   flex-direction: column;
   align-items: center;
   height: 100%;
