@@ -4,10 +4,11 @@ import { TextField, Autocomplete, Button } from "@mui/material";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
 import "./styles.css";
-import { fetchRandomHero, fetchHeroInfos } from "../../api/hero";
+import { fetchRandomHero, fetchHeroInfos, fetchMarvelHeros, fetchDCHeros } from "../../api/hero";
 import type { Hero, HeroBaseInfos, HeroValidation } from "../../types";
 import List from "../../components/list/"
 import SendIcon from '@mui/icons-material/Send';
+import LoopIcon from "@mui/icons-material/Loop";
 
 const GuessImages = () => {
   const [hero, setHero] = useState<Hero | null>(null);
@@ -15,20 +16,63 @@ const GuessImages = () => {
   const [list, setList] = useState<HeroValidation[]>([]);
   const [imagePath, setImagePath] = useState<string>("");
   const [guess, setGuess] = useState<HeroBaseInfos | null>(null);
+  const [isReroll, setIsReroll] = useState<boolean>(false);
 
   const imageCanvas = useRef<HTMLCanvasElement | null>(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setIsReroll(false);
+    const fetchHeroList = async () => {
+      let marvel = localStorage.getItem('marvel')
+      let dc = localStorage.getItem('dc')
+      let heroRes;
+  
+      if ((marvel === 'true' || marvel === null) && (dc === 'true' || dc === null)) {
+        const allHeroInfos = await fetchRandomHero();
+        if (allHeroInfos)
+          heroRes = allHeroInfos;
+      } else if (marvel === 'true' || marvel === null) {
+        const MarvelHeroInfos = await fetchMarvelHeros();
+        if (MarvelHeroInfos)
+          heroRes = MarvelHeroInfos;
+      } else if (dc === 'true' || dc === null) {
+        const DcHeroInfos = await fetchDCHeros();
+        if (DcHeroInfos)
+          heroRes = DcHeroInfos;
+      } else {
+        const allHeroInfos = await fetchRandomHero();
+        if (allHeroInfos)
+          heroRes = allHeroInfos;
+      }
+      if (heroRes) {
+        console.log(heroRes)
+        setHero(heroRes);
+        setList([]);
+        setImagePath("http://localhost:8080/assets/" + heroRes.image);
+      }
+    };
+
+    fetchHeroList();
+  }, [isReroll]);
+
   const fetchHero = useCallback(async () => {
-    const heroRes = await fetchRandomHero();
     const heroInfosRes = await fetchHeroInfos();
+    
+    let marvel = localStorage.getItem('marvel')
+    let dc = localStorage.getItem('dc')
 
-    if (heroRes && hero === null) {
-      setHero(heroRes);
-      setImagePath("http://localhost:8080/assets/" + heroRes.image);
+    if (heroInfosRes && heroInfos.length === 0) {
+      let filterHeros: HeroBaseInfos[] = heroInfosRes;
+      if ((marvel === 'true' || marvel === null) && (dc === 'true' || dc === null)) {
+        filterHeros = heroInfosRes;
+      } else if ((marvel === 'true' || marvel === null)) {
+        filterHeros = heroInfosRes.filter(hero => hero.publisher === "Marvel Comics")
+      } else if (dc === 'true' || dc === null) {
+        filterHeros = heroInfosRes.filter(hero => hero.publisher === "DC Comics")
+      }
+      setHeroInfos(filterHeros);
     }
-
-    if (heroInfosRes && heroInfos.length === 0) setHeroInfos(heroInfosRes);
   }, [hero, heroInfos.length]);
 
   const loadCanvasImage = useCallback(() => {
@@ -79,6 +123,12 @@ const GuessImages = () => {
       setGuess(hero);
   };
 
+  const handleRerollClick = () => {
+    setImagePath('');
+    setGuess(null);
+    setIsReroll(true);
+  };
+
   const handleMenuClick = () => {
     navigate("/");
   };
@@ -114,13 +164,23 @@ const GuessImages = () => {
             />
           )}
         />
-      <Button 
-        variant="contained"
-        endIcon={<SendIcon />}
-        onClick={currentValidation}
-        >
-        Validate
-      </Button>
+        <div className="button-section">
+          <Button
+            variant="contained"
+            color="error"
+            endIcon={<LoopIcon />}
+            onClick={handleRerollClick}
+          >
+            Reroll
+          </Button>
+          <Button 
+            variant="contained"
+            endIcon={<SendIcon />}
+            onClick={currentValidation}
+            >
+            Validate
+          </Button>
+        </div>
       </div>
     </div>
     <List list={list} />

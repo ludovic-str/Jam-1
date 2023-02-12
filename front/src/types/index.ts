@@ -1,6 +1,7 @@
 export interface HeroBaseInfos {
   name: string;
   image: string;
+  publisher: string;
 }
 
 export interface Hero {
@@ -40,5 +41,6 @@ export interface HeroGuess {
 export interface HeroValidation {
   name: string;
   image: string;
+  publisher: string;
   isValid: boolean;
 }
