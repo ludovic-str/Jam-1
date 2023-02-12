@@ -1,10 +1,16 @@
 import React from "react";
-import { HeroGuess } from "../../types";
+import { HeroGuess, NumberFieldValidation } from "../../types";
 import "./styles.css";
 
 interface CharacterGuessProps {
   data: HeroGuess;
 }
+
+const getNumberFieldClass = (value: NumberFieldValidation) => {
+  if (value === "equal") return "square-good";
+
+  return value === "more" ? "square-superior" : "square-inferior";
+};
 
 const CharacterGuess = (props: CharacterGuessProps) => {
   return (
@@ -39,18 +45,14 @@ const CharacterGuess = (props: CharacterGuessProps) => {
           </div>
         </div>
         <div
-          className={`square ${
-            props.data.isHeightValid ? "square-good" : "square-bad"
-          }`}
+          className={`square ${getNumberFieldClass(props.data.isHeightValid)}`}
         >
           <div className="square-content">
             <span>{props.data.height}</span>
           </div>
         </div>
         <div
-          className={`square ${
-            props.data.isWeightValid ? "square-good" : "square-bad"
-          }`}
+          className={`square ${getNumberFieldClass(props.data.isWeightValid)}`}
         >
           <div className="square-content">
             <span>{props.data.weight}</span>

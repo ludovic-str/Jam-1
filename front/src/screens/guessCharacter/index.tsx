@@ -8,7 +8,7 @@ import LoopIcon from "@mui/icons-material/Loop";
 import "./styles.css";
 import { toast } from "react-toastify";
 
-import { Hero, HeroGuess } from "../../types";
+import { Hero, HeroGuess, NumberFieldValidation } from "../../types";
 import { fetchAllHeros, fetchRandomHero } from "../../api/hero";
 import CharacterGuess from "../../components/CharacterGuess";
 import GuessCategories from "../../components/GuessCategories";
@@ -50,6 +50,15 @@ const GuessCharacter = () => {
     setGuesses([]);
   };
 
+  const getNumberFieldValidation = (
+    value: number,
+    guess: number
+  ): NumberFieldValidation => {
+    if (value === guess) return "equal";
+
+    return value > guess ? "more" : "less";
+  };
+
   const handleGuess = () => {
     const heroFound = herosList.find((el) => el.name === guess);
     console.log(guess);
@@ -61,9 +70,9 @@ const GuessCharacter = () => {
         species: heroFound.race,
         isSpeciesValid: heroFound.race === hero.race,
         height: heroFound.height,
-        isHeightValid: heroFound.height === hero.height,
+        isHeightValid: getNumberFieldValidation(hero.height, heroFound.height),
         weight: heroFound.weight,
-        isWeightValid: heroFound.weight === hero.weight,
+        isWeightValid: getNumberFieldValidation(hero.weight, heroFound.weight),
         hairColor: heroFound.hairColor,
         isHairColorValid: heroFound.hairColor === hero.hairColor,
         skinColor: heroFound.skinColor,

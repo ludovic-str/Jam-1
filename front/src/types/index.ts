@@ -19,6 +19,8 @@ export interface Hero {
   image: string;
 }
 
+export type NumberFieldValidation = "more" | "less" | "equal";
+
 export interface HeroGuess {
   image: string;
   gender: string;
@@ -26,9 +28,9 @@ export interface HeroGuess {
   species: string;
   isSpeciesValid: boolean;
   height: number;
-  isHeightValid: boolean;
+  isHeightValid: NumberFieldValidation;
   weight: number;
-  isWeightValid: boolean;
+  isWeightValid: NumberFieldValidation;
   hairColor: string;
   isHairColorValid: boolean;
   skinColor: string;
