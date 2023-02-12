@@ -8,8 +8,8 @@ import LoopIcon from "@mui/icons-material/Loop";
 import "./styles.css";
 import { toast } from "react-toastify";
 
-import { Hero, HeroGuess, NumberFieldValidation } from "../../types";
-import { fetchAllHeros, fetchRandomHero } from "../../api/hero";
+import { Hero, HeroBaseInfos, HeroGuess, NumberFieldValidation } from "../../types";
+import { fetchAllHeros, fetchRandomHero, fetchMarvelHeros, fetchDCHeros, fetchHeroInfos } from "../../api/hero";
 import CharacterGuess from "../../components/CharacterGuess";
 import GuessCategories from "../../components/GuessCategories";
 
@@ -24,12 +24,44 @@ const GuessCharacter = () => {
     setIsReroll(false);
     const fetchHeroList = async () => {
       const heroListRes = await fetchAllHeros();
-      const heroRes = await fetchRandomHero();
-      console.log(heroRes);
-
-      if (heroListRes) setHeroList(heroListRes);
-
-      if (heroRes) setHero(heroRes);
+      let marvel = localStorage.getItem('marvel')
+      let dc = localStorage.getItem('dc')
+      let heroRes;
+  
+      if ((marvel === 'true' || marvel === null) && (dc === 'true' || dc === null)) {
+        const allHeroInfos = await fetchRandomHero();
+        if (allHeroInfos)
+          heroRes = allHeroInfos;
+      } else if (marvel === 'true' || marvel === null) {
+        const MarvelHeroInfos = await fetchMarvelHeros();
+        if (MarvelHeroInfos)
+          heroRes = MarvelHeroInfos;
+      } else if (dc === 'true' || dc === null) {
+        const DcHeroInfos = await fetchDCHeros();
+        if (DcHeroInfos)
+          heroRes = DcHeroInfos;
+      } else {
+        const allHeroInfos = await fetchRandomHero();
+        if (allHeroInfos)
+          heroRes = allHeroInfos;
+      }
+      if (heroRes) {
+        console.log(heroRes)
+        setHero(heroRes);
+      }
+      const heroInfosRes = await fetchAllHeros();
+    
+      if (heroInfosRes && herosList.length === 0) {
+        let filterHeros: Hero[] = [];
+        if ((marvel === 'true' || marvel === null) && (dc === 'true' || dc === null)) {
+          filterHeros = heroInfosRes;
+        } else if ((marvel === 'true' || marvel === null)) {
+          filterHeros = heroInfosRes.filter(el => el.publisher === "Marvel Comics")
+        } else if (dc === 'true' || dc === null) {
+          filterHeros = heroInfosRes.filter(e => e.publisher === "DC Comics")
+        }
+        setHeroList(filterHeros);
+      }
     };
 
     fetchHeroList();

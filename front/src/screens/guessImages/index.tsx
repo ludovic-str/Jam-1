@@ -102,7 +102,6 @@ const GuessImages = () => {
       } else if (guess) {
         setList([{...guess, isValid: false}, ...list])
       }
-      // heroInfos.splice(heroInfos.findIndex(el => el.name === guess.name), 1)
     }
   };
 
