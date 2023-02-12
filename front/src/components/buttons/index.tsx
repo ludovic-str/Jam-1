@@ -3,7 +3,7 @@ import "./styles.css";
 import Button from '@mui/material/Button';
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import { useNavigate } from "react-router-dom";
 import React from "react";
 
@@ -19,7 +19,7 @@ const ButtonsReverse = () => {
   };
 
   const handleEmojiClick = () => {
-    navigate("/guess/emoji");
+    navigate("/guess/pedago");
   };
 
   return (
@@ -63,8 +63,8 @@ const ButtonsReverse = () => {
       backgroundColor: "#E33E39",}}
       onClick={handleEmojiClick}
       >
-        <p className="icon"><EmojiEmotionsIcon></EmojiEmotionsIcon></p>
-        <p className="text">Emoji</p>
+        <p className="icon"><GitHubIcon></GitHubIcon></p>
+        <p className="text">Pedago</p>
           </Button>
       </div>
     </div>
