@@ -64,7 +64,7 @@ const ButtonsReverse = () => {
       onClick={handleEmojiClick}
       >
         <p className="icon"><GitHubIcon></GitHubIcon></p>
-        <p className="text">Pedago</p>
+        <p className="text"><Pedago></Pedago></p>
           </Button>
       </div>
     </div>
