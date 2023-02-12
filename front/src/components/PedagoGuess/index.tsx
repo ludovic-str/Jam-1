@@ -1,9 +1,9 @@
 import React from "react";
-import { HeroGuess, NumberFieldValidation } from "../../types";
+import { NumberFieldValidation, PedagoGuess } from "../../types";
 import "./styles.css";
 
-interface CharacterGuessProps {
-  data: HeroGuess;
+interface PedagoGuessProps {
+  data: PedagoGuess;
 }
 
 const getNumberFieldClass = (value: NumberFieldValidation) => {
@@ -12,7 +12,8 @@ const getNumberFieldClass = (value: NumberFieldValidation) => {
   return value === "more" ? "square-superior" : "square-inferior";
 };
 
-const CharacterGuess = (props: CharacterGuessProps) => {
+const PedagoGuessItem = (props: PedagoGuessProps) => {
+  console.log(props.data);
   return (
     <div className="classic-answer">
       <div className="square-container">
@@ -37,11 +38,11 @@ const CharacterGuess = (props: CharacterGuessProps) => {
         </div>
         <div
           className={`square ${
-            props.data.isSpeciesValid ? "square-good" : "square-bad"
+            props.data.isRoleValid ? "square-good" : "square-bad"
           }`}
         >
           <div className="square-content">
-            <span>{props.data.species}</span>
+            <span>{props.data.role}</span>
           </div>
         </div>
         <div
@@ -49,13 +50,6 @@ const CharacterGuess = (props: CharacterGuessProps) => {
         >
           <div className="square-content">
             <span>{props.data.height}</span>
-          </div>
-        </div>
-        <div
-          className={`square ${getNumberFieldClass(props.data.isWeightValid)}`}
-        >
-          <div className="square-content">
-            <span>{props.data.weight}</span>
           </div>
         </div>
         <div
@@ -69,20 +63,29 @@ const CharacterGuess = (props: CharacterGuessProps) => {
         </div>
         <div
           className={`square ${
-            props.data.isSkinColorValid ? "square-good" : "square-bad"
+            props.data.isMainLanguageValid ? "square-good" : "square-bad"
           }`}
         >
           <div className="square-content">
-            <span>{props.data.skinColor}</span>
+            <span>{props.data.mainLanguage}</span>
           </div>
         </div>
         <div
           className={`square ${
-            props.data.isPublisherValid ? "square-good" : "square-bad"
+            props.data.isFavoriteIDEValid ? "square-good" : "square-bad"
           }`}
         >
           <div className="square-content">
-            <span>{props.data.publisher}</span>
+            <span>{props.data.favoriteIDE}</span>
+          </div>
+        </div>
+        <div
+          className={`square ${getNumberFieldClass(
+            props.data.isGraduationYearValid
+          )}`}
+        >
+          <div className="square-content">
+            <span>{props.data.graduationYear}</span>
           </div>
         </div>
       </div>
@@ -90,4 +93,4 @@ const CharacterGuess = (props: CharacterGuessProps) => {
   );
 };
 
-export default CharacterGuess;
+export default PedagoGuessItem;

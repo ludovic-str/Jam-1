@@ -4,6 +4,7 @@ import httpStatus from "http-status";
 
 import { FastifyPluginDoneFunction } from "../types/global.types";
 import HerosConfig from "../../assets/heros.json";
+import PedagoConfig from "../../assets/pedago.json";
 
 export default (
   instance: FastifyInstance,
@@ -45,6 +46,20 @@ export default (
 
     res.status(httpStatus.OK).send(infos);
   });
+
+  instance.get("/pedago", async (req: FastifyRequest, res: FastifyReply) => {
+    const id = Math.floor(Math.random() * PedagoConfig.length);
+
+    res.status(httpStatus.OK).send(PedagoConfig[id]);
+  });
+
+  instance.get(
+    "/pedago/all",
+    async (req: FastifyRequest, res: FastifyReply) => {
+      res.status(httpStatus.OK).send(PedagoConfig);
+    }
+  );
+
   done();
 };
 
