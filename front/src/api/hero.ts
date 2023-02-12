@@ -57,4 +57,42 @@ const fetchAllHeros = async () => {
   return heros as Hero[];
 };
 
+const fetchMarvelHeros = async () => {
+  const res = await fetch("http://localhost:8080/heros/marvel", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "https://localhost:8080",
+    },
+  });
+
+  const hero = await res.json();
+
+  if (res.status !== 200) {
+    return null;
+  }
+
+  return hero as Hero;
+};
+
+const fetchDCHeros = async () => {
+  const res = await fetch("http://localhost:8080/heros/dc", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "https://localhost:8080",
+    },
+  });
+
+  const hero = await res.json();
+
+  if (res.status !== 200) {
+    return null;
+  }
+
+  return hero as Hero;
+};
+
 export { fetchRandomHero, fetchHeroInfos, fetchAllHeros };

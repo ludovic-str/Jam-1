@@ -16,6 +16,24 @@ export default (
     res.status(httpStatus.OK).send(HerosConfig[id]);
   });
 
+  instance.get("/dc", async (req: FastifyRequest, res: FastifyReply) => {
+    const heros = HerosConfig.filter((hero) => hero.publisher === "DC Comics");
+
+    const id = Math.floor(Math.random() * heros.length);
+
+    res.status(httpStatus.OK).send(heros[id]);
+  });
+
+  instance.get("/marvel", async (req: FastifyRequest, res: FastifyReply) => {
+    const heros = HerosConfig.filter(
+      (hero) => hero.publisher === "Marvel Comics"
+    );
+
+    const id = Math.floor(Math.random() * heros.length);
+
+    res.status(httpStatus.OK).send(heros[id]);
+  });
+
   instance.get("/all", (req: FastifyRequest, res: FastifyReply) => {
     res.status(httpStatus.OK).send(HerosConfig);
   });
